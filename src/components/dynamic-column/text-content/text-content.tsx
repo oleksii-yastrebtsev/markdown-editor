@@ -1,19 +1,22 @@
-import { Alignment } from "../../../models";
+import { Alignment, ColumnMetada } from "../../../models";
+import { useTextColumn } from "../../../state/selectors";
 import { Markdown } from "../../markdown";
 import classNames from "classnames";
 
-type TextContentProps = { text: string; aliignment: Alignment };
+type TextContentProps = { id: ColumnMetada["id"] };
 
-function TextContent(props: TextContentProps) {
+function TextContent(props: Readonly<TextContentProps>) {
+  const { alignment, text } = useTextColumn(props.id);
+
   return (
     <Markdown
       className={classNames({
-        "text-align-left": props.aliignment === Alignment.LEFT,
-        "text-align-center": props.aliignment === Alignment.CENTER,
-        "text-align-right": props.aliignment === Alignment.RIGHT,
+        "text-align-left": alignment === Alignment.LEFT,
+        "text-align-center": alignment === Alignment.CENTER,
+        "text-align-right": alignment === Alignment.RIGHT,
       })}
     >
-      {props.text}
+      {text}
     </Markdown>
   );
 }

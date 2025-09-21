@@ -1,6 +1,6 @@
 export type Row = {
   id: string;
-  columnIds: Array<Column["id"]>;
+  columnIds: Array<ColumnMetada["id"]>;
 };
 
 export enum ContentType {
@@ -14,24 +14,20 @@ export enum Alignment {
   RIGHT = "start",
 }
 
-type ColumnBase = {
+export type ColumnMetada = {
   id: string;
   perentRowId: Row["id"];
   contentType?: ContentType;
 };
 
-export type ImageColumn = ColumnBase & {
-  contentType: typeof ContentType.IMAGE;
+export type ImageColumn = Pick<ColumnMetada, "id"> & {
   imageUrl: string;
 };
 
-export type TextColumn = ColumnBase & {
-  contentType: typeof ContentType.TEXT;
+export type TextColumn = Pick<ColumnMetada, "id"> & {
   text: string;
   alignment: Alignment;
 };
-
-export type Column = ColumnBase | TextColumn | ImageColumn;
 
 export enum NodeType {
   ROW = "Row",
@@ -46,8 +42,8 @@ export type SelectedRow = {
 
 export type SelectedColumn = {
   selectedNodeType: NodeType.COLUMN;
-  selectedNodeId: Column["id"];
-} & Pick<Column, "perentRowId">;
+  selectedNodeId: ColumnMetada["id"];
+} & Pick<ColumnMetada, "perentRowId">;
 
 export type SelectedStage = {
   selectedNodeType: NodeType.STAGE;
@@ -59,6 +55,8 @@ export type SelectedNode = SelectedRow | SelectedColumn | SelectedStage;
 export type GlobalState = {
   rowsIds: Array<Row["id"]>;
   rows: Record<Row["id"], Row>;
-  columns: Record<Column["id"], Column>;
+  columns: Record<ColumnMetada["id"], ColumnMetada>;
+  textColumns: Record<TextColumn["id"], TextColumn>;
+  imageColumns: Record<ImageColumn["id"], ImageColumn>;
   selectedNode: SelectedNode;
 };

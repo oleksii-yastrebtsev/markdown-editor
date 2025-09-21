@@ -1,12 +1,14 @@
 import { ImageColumn } from "../../../models";
+import { useImageColumn } from "../../../state/selectors";
 import { ImagePlaceholder } from "../../image-placeholder";
 
 type ImageContentProps = {
-  imgUrl: ImageColumn["imageUrl"];
+  id: ImageColumn["id"];
 };
 
-function ImageContent(props: ImageContentProps) {
-  return props.imgUrl ? <img src={props.imgUrl} alt="" /> : <ImagePlaceholder />;
+function ImageContent(props: Readonly<ImageContentProps>) {
+  const { imageUrl } = useImageColumn(props.id);
+  return imageUrl ? <img src={imageUrl} alt="" /> : <ImagePlaceholder />;
 }
 
 export default ImageContent;

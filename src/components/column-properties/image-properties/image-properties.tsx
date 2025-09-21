@@ -2,9 +2,9 @@ import { ImageColumn } from "../../../models";
 import { updateImageColumn } from "../../../state/actions";
 import { useDispatch } from "../../../state/selectors";
 
-type ImagePropertiesProps = { imageUrl: ImageColumn["imageUrl"]; id: ImageColumn["id"] };
+type ImagePropertiesProps = { id: ImageColumn["id"] };
 
-function ImageProperties(props: ImagePropertiesProps) {
+function ImageProperties(props: Readonly<ImagePropertiesProps>) {
   const dispatch = useDispatch();
 
   const handleImageUrlChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -16,7 +16,7 @@ function ImageProperties(props: ImagePropertiesProps) {
       <div className="section-header">Image</div>
       <div className="text-field">
         <label htmlFor="image-url">URL</label>
-        <input onChange={handleImageUrlChange} id="image-url" type="text" value={props.imageUrl} />
+        <input onChange={handleImageUrlChange} id="image-url" type="text" value={""} />
       </div>
     </div>
   );

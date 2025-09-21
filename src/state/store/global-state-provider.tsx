@@ -8,6 +8,8 @@ const initialState: GlobalState = {
   rowsIds: [],
   rows: {},
   columns: {},
+  textColumns: {},
+  imageColumns: {},
   selectedNode: {
     selectedNodeType: NodeType.STAGE,
     selectedNodeId: undefined,

@@ -1,24 +1,23 @@
 import { Icons } from "../../icons";
 import { Alignment, TextColumn } from "../../../models";
 import classNames from "classnames";
-import { useDispatch } from "../../../state/selectors";
+import { useDispatch, useTextColumn } from "../../../state/selectors";
 import { updateTextColumn } from "../../../state/actions";
 
 type TextPropertiesProps = {
   id: TextColumn["id"];
-  text: TextColumn["text"];
-  aligmnent: TextColumn["alignment"];
 };
 
-function TextProperties(props: TextPropertiesProps) {
+function TextProperties(props: Readonly<TextPropertiesProps>) {
   const dispatch = useDispatch();
+  const textColumn = useTextColumn(props.id);
 
   const handleAlignmentChange = (newAlignment: Alignment) => {
-    dispatch(updateTextColumn(props.id, { text: props.text, alignment: newAlignment }));
+    dispatch(updateTextColumn(props.id, { text: textColumn.text, alignment: newAlignment }));
   };
 
   const handleTextChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    dispatch(updateTextColumn(props.id, { text: event.target.value, alignment: props.aligmnent }));
+    dispatch(updateTextColumn(props.id, { text: event.target.value, alignment: textColumn.alignment }));
   };
 
   return (
@@ -29,26 +28,26 @@ function TextProperties(props: TextPropertiesProps) {
         <div className="button-group">
           <button
             onClick={() => handleAlignmentChange(Alignment.LEFT)}
-            className={classNames({ selected: props.aligmnent === Alignment.LEFT })}
+            className={classNames({ selected: textColumn.alignment === Alignment.LEFT })}
           >
             <Icons.TextAlignLeft />
           </button>
           <button
             onClick={() => handleAlignmentChange(Alignment.CENTER)}
-            className={classNames({ selected: props.aligmnent === Alignment.CENTER })}
+            className={classNames({ selected: textColumn.alignment === Alignment.CENTER })}
           >
             <Icons.TextAlignCenter />
           </button>
           <button
             onClick={() => handleAlignmentChange(Alignment.RIGHT)}
-            className={classNames({ selected: props.aligmnent === Alignment.RIGHT })}
+            className={classNames({ selected: textColumn.alignment === Alignment.RIGHT })}
           >
             <Icons.TextAlignRight />
           </button>
         </div>
       </div>
       <div className="textarea-field">
-        <textarea rows={8} placeholder="Enter text" onChange={handleTextChange} value={props.text}></textarea>
+        <textarea rows={8} placeholder="Enter text" onChange={handleTextChange} value={textColumn.text}></textarea>
       </div>
     </div>
   );
